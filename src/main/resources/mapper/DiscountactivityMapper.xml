@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.DiscountactivityMapper">
+<!--    <resultMap id="discount" type="Discount">-->
+<!--        <id column="id" property="discountActivityId"/>-->
+<!--        <result column="styleid" property="discountId"/>-->
+<!--        <result column="condition" property="discountCondition"/>-->
+<!--        <result column="detail" property="discountDetail"/>-->
+<!--        <result column="stime" property="activityStartTime"/>-->
+<!--        <result column="etime" property="activityEndTime"/>-->
+<!--        <result column="userId" property="userId"/>-->
+<!--    </resultMap>-->
+
+    <insert id="InsertDiscount" parameterType="com.hz.pojo.Discountactivity" useGeneratedKeys="true" keyProperty="discountActivityId" keyColumn="DiscountActivityId">
+        insert into discountactivity values (null,#{discount.discountId},#{discount.discountCondition},#{discount.discountDetail},
+        #{discount.activityStartTime},#{discount.activityEndTime},#{discount.discountPrice},#{discount.userId})
+    </insert>
+    
+    <update id="UpdateDiscount" parameterType="com.hz.pojo.Discountactivity">
+        update discountactivity 
+        <set>
+            <if test="discount.discountId != null">
+                DiscountId=#{discount.discountId},
+            </if>
+            <if test="discount.discountCondition != null">
+                DiscountCondition = #{discount.discountCondition},
+            </if>
+            <if test="discount.discountDetail != null">
+                DiscountDetail =   #{discount.discountDetail},
+            </if>
+            <if test="discount.activityStartTime != null">
+                ActivityStartTime=#{discount.activityStartTime},
+            </if>
+            <if test="discount.activityEndTime != null">
+                ActivityEndTime=#{discount.activityEndTime},
+            </if>
+            <if test="discount.discountPrice != null">
+                DiscountPrice =  #{discount.discountPrice}
+            </if>
+        </set>
+        where DiscountActivityId = #{discount.discountActivityId}
+    </update>
+
+    <delete id="DeleteDiscount">
+        delete from discountactivity where DiscountActivityId = #{id}
+    </delete>
+
+    <select id="getDiscount" resultType="com.hz.pojo.Discountactivity">
+        select * from discountactivity where DiscountActivityId = #{id}
+    </select>
+
+    <select id="getDiscounts" resultType="com.hz.pojo.Discountactivity">
+        select * from discountactivity where UserId = #{userid}
+    </select>
+</mapper>

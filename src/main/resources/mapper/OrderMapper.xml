@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.OrderMapper">
+<!--    <resultMap id="order" type="Order">-->
+<!--        <id column="OrderId" property="orderId"/>-->
+<!--        <result column="SellerOrderId" property="sellerOrderId"/>-->
+<!--        <result column="OrderPrice" property="orderPrice"/>-->
+<!--        <result column="ProductId" property="porductId"/>-->
+<!--        <result column="ProductNumber" property="productNumber"/>-->
+<!--        <result column="OrderState" property="orderState"/>-->
+<!--        <result column="OrderRemark" property="orderRemark"/>-->
+<!--    </resultMap>-->
+
+    <select id="getOrders" resultType="com.hz.pojo.Order">
+        select  * from `order` where ProductId in (
+            select ProductId from `product` where `UserId`=#{UserId}
+        )
+    </select>
+
+    <insert id="InsertOrders" parameterType="java.util.List" useGeneratedKeys="true" keyColumn="OrderId" keyProperty="orderId">
+        insert into `order` values
+        <foreach collection="orders" index="index" separator="," item="item">
+           (null,#{item.sellerOrderId},#{item.orderPrice},#{item.productId},
+           #{item.productNumber},#{item.orderState},#{item.orderRemark})
+        </foreach>
+    </insert>
+
+    <insert id="InsertOne" parameterType="com.hz.pojo.Order" useGeneratedKeys="true" keyProperty="orderId" keyColumn="OrderId">
+        insert into `order` value (null,#{order.sellerOrderId},#{order.orderPrice},#{order.productId},
+        #{order.productNumber},#{order.orderState},#{order.orderRemark})
+    </insert>
+
+    <update id="updateOrder">
+        update `order` set `OrderState` = #{status}
+        where OrderId=#{orderid}
+    </update>
+
+    <select id="getOrderID">
+        select count(*) from order
+    </select>
+</mapper>

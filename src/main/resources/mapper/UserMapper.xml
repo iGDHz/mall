@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.UserMapper">
+<!--    <resultMap id="user" type="User">-->
+<!--        <id column="UserId" property="userId"/>-->
+<!--        <result column="UserName" property="userName"/>-->
+<!--        <result column="UserNickname" property="userNickName"/>-->
+<!--        <result column="UserPassword" property="userPassword"/>-->
+<!--        <result column="UserPhone" property="userPhone"/>-->
+<!--        <result column="UserMailBox" property="userMailbox"/>-->
+<!--        <result column="UserBirthday" property="userBirthday"/>-->
+<!--        <result column="Userpicture" property="userpicture"/>-->
+<!--        <result column="UserRealName" property="userRealName"/>-->
+<!--        <result column="UserRoleId" property="userRoleId"/>-->
+<!--        <result column="UserAddress" property="userAddress"/>-->
+<!--    </resultMap>-->
+    <insert id="InsertUser" parameterType="com.hz.pojo.User" useGeneratedKeys="true" keyProperty="userId" keyColumn="UserId">
+        insert into `user` values (null,#{user.userName},#{user.userNickname},#{user.userPassword},
+        #{user.userPhone},#{user.userAddress},#{user.userMailbox},#{user.userpicture},#{user.userBirthday},
+        #{user.userRealName},#{user.userRoleId})
+    </insert>
+
+    <select id="SelectByUsername" resultType="com.hz.pojo.User">
+        select * from `user`
+        <trim prefix="where" prefixOverrides="and">
+            <if test="username != null">
+                and `UserName`=#{username}
+            </if>
+            <if test="role != null">
+                and `UserRoleId` = #{role}
+            </if>
+        </trim>
+    </select>
+    
+    <update id="UpdateUser" parameterType="com.hz.pojo.User">
+        update `user`
+        <set>
+            <if test="user.userName != null">UserName = #{user.userName},</if>
+            <if test="user.userNickname != null">UserNickname = #{user.userNickname},</if>
+            <if test="user.userPassWord != null">UserPhone = #{user.userPhone},</if>
+            <if test="user.userAddress != null">UserAddress = #{user.userAddress},</if>
+            <if test="user.userMailbox != null">UserMailbox = #{user.userMailbox},</if>
+            <if test="user.userPicture != null">UserPicture = #{user.userPicture},</if>
+            <if test="user.userBirthday != null">UserPicture = #{user.userPicture},</if>
+            <if test="user.userRealName != null">UserRealName = #{user.userRealName},</if>
+            <if test="user.userRoleId != null">UserRoleId = #{user.userRoleId}</if>
+        </set>
+        where `UserId`=#{user.userId}
+    </update>
+
+</mapper>

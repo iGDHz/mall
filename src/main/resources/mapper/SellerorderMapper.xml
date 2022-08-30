@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.SellerorderMapper">
+    <select id="getOrders" resultType="com.hz.pojo.Sellerorder">
+        select  * from sellerorder where SellerOrderId=#{totalid}
+    </select>
+
+    <insert id="InsertSellerOrders" parameterType="java.util.ArrayList" useGeneratedKeys="true" keyColumn="SellerOrderId" keyProperty="sellerOrderId">
+        insert into sellerorder values
+        <foreach collection="orders" index="index" separator="," item="item">
+            (null,#{item.totalOrderId},#{item.sellerOrderPrice},#{item.discountActivityid})
+        </foreach>
+    </insert>
+
+    <insert id="InsertSellerOrder" parameterType="com.hz.pojo.Sellerorder" useGeneratedKeys="true" keyProperty="sellerOrderId" keyColumn="SellerOrderId">
+        insert into sellerorder value (null,#{order.totalOrderId},#{order.sellerOrderPrice},#{order.discountActivityid})
+    </insert>
+</mapper>

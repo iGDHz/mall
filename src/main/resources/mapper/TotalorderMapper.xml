@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.TotalorderMapper">
+<!--    <resultMap id="order" type="Order">-->
+<!--        <id column="TotalOrderId" property="totalOrderId"/>-->
+<!--        <result column="OrderAddress" property="orderAddress"/>-->
+<!--        <result column="OrderAddressDetail" property="orderAddressDetail"/>-->
+<!--        <result column="DiscountActivityId" property="discountActivityId"/>-->
+<!--        <result column="TotalOrderPrice" property="totalOrderPrice"/>-->
+<!--        <result column="UserId" property="UserId"/>-->
+<!--    </resultMap>-->
+
+    <insert id="InsertTotalOrder" parameterType="com.hz.pojo.Totalorder" useGeneratedKeys="true" keyColumn="TotalOrderId" keyProperty="totalOrderId">
+        insert into totalorder value (null,#{order.orderAddress},#{order.orderAddressDetail},#{order.discountActivityId},
+        #{order.totalOrderPrice},#{order.userId})
+    </insert>
+    
+    <select id="getTotalOrder" resultType="com.hz.pojo.Totalorder">
+        select * from totalorder where TotalOrderId = #{id}
+    </select>
+</mapper>

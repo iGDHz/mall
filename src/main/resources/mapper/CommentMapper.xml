@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.CommentMapper">
+<!--    <resultMap id="comment" type="Comment">-->
+<!--        <id column="CommentId" property="commentId"/>-->
+<!--        <result column="CommentDetail" property="commentDetail"/>-->
+<!--        <result column="ProductId" property="productId"/>-->
+<!--        <result column="CommentPraise" property="commentPraise"/>-->
+<!--        <result column="CommentReturnId" property="commentReturnId"/>-->
+<!--    </resultMap>-->
+
+    <select id="getComment" resultType="com.hz.pojo.Comment">
+        select * from `comment` where ProductId=#{productid}
+    </select>
+
+    <update id="updateComment" parameterType="com.hz.pojo.Comment">
+        update comment
+        <set>
+            <if test="comment.CommentDetail">
+                CommentDetail=#{comment.commentDetail},
+            </if>
+            <if test="comment.CommentPraise">
+                CommentPraise=#{comment.commentPraise},
+            </if>
+        </set>
+        <where>
+            CommentId=#{comment.commentId}
+        </where>
+    </update>
+
+    <insert id="InsertComment" parameterType="com.hz.pojo.Comment" useGeneratedKeys="true" keyProperty="commentId" keyColumn="CommentId">
+        insert into comment value (null,#{comment.commentDetail},#{comment.productId},
+        #{comment.commentPraise},#{comment.commentReturnId})
+    </insert>
+    
+    <delete id="deleteComment" >
+        delete from comment where CommentId=#{commentid}
+    </delete>
+</mapper>

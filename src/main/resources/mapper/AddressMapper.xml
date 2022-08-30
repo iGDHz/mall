@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.mapper.AddressMapper">
+    <resultMap id="address" type="Address">
+        <id column="address_areaId" property="AddressAreaId"/>
+        <result column="address_name" property="AddressName"/>
+        <result column="address_regionId" property="AddressRegion"/>
+    </resultMap>
+
+    <select id="SearchProvince" resultMap="address">
+        select * from `address` where `address_areaId`=`address_regionId`
+    </select>
+
+    <select id="SearchByName" parameterType="string" resultMap="address">
+        select * from `address` where `address_regionId` in
+        (select `address_areaId` from `address` where `address_name`=#{Name}) and `address_regionId` != `address_areaId`
+    </select>
+
+</mapper>
